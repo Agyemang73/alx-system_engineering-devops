@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Install nginx web server
+
+sudo apt-get update
+sudo apt install nginx -y
+sudo chown -R ubuntu /var/www/html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+# Adding lines to the file /etc/nginx/sites-available/default
+str_redir="\n\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=_WRBAzV-iHI&t=1s;\n\t}\n"
+str_err="\n\terror_page 404 /404.html;\n\tlocation = /var/www/html/404.html {\n\t\tinternal;\n\t}"
+host=$(hostname)
+str_head="\t\tadd_header X-Served-By $host;\n"
+sudo sed -i "47i\ $str_err$str_redir" /etc/nginx/sites-available/default
+sudo sed -i -r "/^[^#].*try_files.*=404/ s/^/${str_head}/" /etc/nginx/sites-available/default
+sudo service nginx restart
+sudo service nginx reload
