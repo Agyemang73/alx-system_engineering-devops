@@ -4,7 +4,7 @@
 sudo apt-get update
 sudo apt install nginx -y
 sudo chown -R ubuntu /var/www/html
-echo "Ceci n'est pas une page" > /var/www/html/404.html
+echo "This is not a page" > /var/www/html/404.html
 # Adding lines to the file /etc/nginx/sites-available/default
 str_redir="\n\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=_WRBAzV-iHI&t=1s;\n\t}\n"
 str_err="\n\terror_page 404 /404.html;\n\tlocation = /var/www/html/404.html {\n\t\tinternal;\n\t}"
